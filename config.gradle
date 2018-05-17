@@ -1,0 +1,45 @@
+ext {
+
+    android = [
+            compileSdkVersion: 27,
+            minSdkVersion    : 14,
+            targetSdkVersion : 27,
+            versionCode      : 1,
+            versionName      : "1.0.0",
+            applicationId    : "com.cangmaomao.network.myapplication"
+    ]
+
+    libsVersion = [
+            supportLibraryVersion = "27.1.1",
+            constraintLayout = "1.1.0",
+            retrofit = "2.3.0",
+            gson = "2.1.0",
+            retrofit2Rxjava2Adapter = "1.0.0",
+            okhttp = "3.8.1",
+            loggingInterceptor = "3.8.0",
+            rxjava = "2.1.0",
+            rxandroid = "2.0.1",
+            multiImageSelector = "1.2",
+            junit = "4.12",
+            runner = "1.0.2",
+            espresso = "3.0.2"
+    ]
+
+    dependencies = [
+            appcompatV7            : "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion",
+            constraintLayout       : "com.android.support.constraint:constraint-layout:$rootProject.constraintLayout",
+            retrofit               : "com.squareup.retrofit2:retrofit:$rootProject.retrofit",
+            gson                   : "com.squareup.retrofit2:converter-gson:$rootProject.gson",
+            retrofit2Rxjava2Adapter: "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$rootProject.retrofit2Rxjava2Adapter",
+            okhttp                 : "com.squareup.okhttp3:okhttp:$rootProject.okhttp",
+            loggingInterceptor     : "com.squareup.okhttp3:logging-interceptor:$rootProject.loggingInterceptor",
+            rxjava                 : "io.reactivex.rxjava2:rxjava:$rootProject.rxjava",
+            rxandroid              : "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroid",
+            multiImageSelector     : "com.github.lovetuzitong:MultiImageSelector:$rootProject.multiImageSelector",
+            junit                  : "junit:junit:$rootProject.junit",
+            runner                 : "com.android.support.test:runner:$rootProject.runner",
+            espresso               : "com.android.support.test.espresso:espresso-core:$rootProject.espresso",
+            libRequest             : ":Lib_Request"
+    ]
+
+}
