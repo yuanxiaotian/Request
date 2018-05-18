@@ -5,15 +5,12 @@ import com.cangmaomao.network.request.RxHttpMange;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public class BaseObserver<T> implements Observer<T> {
+public abstract class BaseObserver<T> implements Observer<T> {
 
     private String tag;
 
-    private BaseResponseListener<T> listener;
-
-    public BaseObserver(String tag, BaseResponseListener listener) {
-        this.listener = listener;
-        this.tag = tag;
+    protected BaseObserver(String Tag) {
+        tag = tag;
     }
 
 
@@ -24,16 +21,26 @@ public class BaseObserver<T> implements Observer<T> {
 
     @Override
     public void onNext(T t) {
-        listener.success(t);
+        success(t);
     }
 
     @Override
     public void onError(Throwable e) {
-        listener.fail(e.getMessage());
+        fail(e.getMessage());
     }
 
     @Override
     public void onComplete() {
 
     }
+
+    /**
+     * 请求成功
+     */
+    public abstract void success(T t);
+
+    /**
+     * 失败
+     */
+    public abstract void fail(String err);
 }

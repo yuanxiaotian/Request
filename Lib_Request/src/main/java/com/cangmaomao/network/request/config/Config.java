@@ -6,7 +6,4 @@ public class Config {
     public static final String S_HTTP_ROOT_URL = "http://www.seteat.com/";
 
 
-    public static final String S_HTTP_ROOT_URL_a = "http://download.fir.im/";
-
-
 }

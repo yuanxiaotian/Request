@@ -2,16 +2,13 @@ package com.cangmaomao.network.request;
 
 
 import com.cangmaomao.network.request.base.BaseFileObserver;
-import com.cangmaomao.network.request.base.BaseFileResponseListener;
-import com.cangmaomao.network.request.base.BaseFileRetrofit;
-import com.cangmaomao.network.request.base.BaseRetrofit;
-import com.cangmaomao.network.request.bean.Base;
 import com.cangmaomao.network.request.config.Config;
-import com.cangmaomao.network.request.utils.StringUtils;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -20,9 +17,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -30,7 +26,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HttpManage {
 
     private Retrofit retrofit;
-    private OkHttpClient client;
     private DownloadInterceptor downloadInterceptor;
 
     private static class HttpManageHolder {
@@ -46,7 +41,7 @@ public class HttpManage {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
         downloadInterceptor = new DownloadInterceptor();
-        client = new OkHttpClient.Builder()
+        OkHttpClient client = new OkHttpClient.Builder()
                 .addNetworkInterceptor(interceptor)
                 .addInterceptor(downloadInterceptor)
                 .retryOnConnectionFailure(true)
@@ -56,43 +51,76 @@ public class HttpManage {
                 .build();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(Config.S_HTTP_ROOT_URL_a)
+                .baseUrl(Config.S_HTTP_ROOT_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
 
-    private <T, K> T createClass(BaseRetrofit<T, K> baseRetrofit) {
-        return baseRetrofit.setRetrofit(retrofit);
-    }
 
-    private <T, K, H> T createClass(BaseFileRetrofit<T, K, H> baseRetrofit) {
-        return baseRetrofit.setRetrofit(retrofit);
+    @SuppressWarnings("ALL")
+    public void map(Class clazz, String methodName, Map<String, Object> param, Observer observer) {
+        try {
+            Method[] methods = clazz.getDeclaredMethods();
+            for (int i = 0; i < methods.length; i++) {
+                if (methodName.equals(methods[i].getName())) {
+                    Object obj = retrofit.create(clazz);
+                    post(observer, (Observable) methods[i].invoke(obj, param));
+                    return;
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     @SuppressWarnings("ALL")
-    public void map(BaseRetrofit baseRetrofit, Observer observer) {
-        post(observer, (Observable) baseRetrofit.getClassApi(createClass(baseRetrofit)));
+    public void upLoadFile(Class<?> clazz, String methodName, File file, Map<String, Object> param, Observer observer) {
+        try {
+            Method[] methods = clazz.getDeclaredMethods();
+            for (int i = 0; i < methods.length; i++) {
+                if (methodName.equals(methods[i].getName())) {
+                    Object obj = retrofit.create(clazz);
+                    RequestBody body = new ProgressResponseBody(file, (BaseFileObserver) observer);
+                    Observable observable = (Observable) methods[i].invoke(obj, body, param);
+                    post(observer, observable);
+                    return;
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.getTargetException().printStackTrace();
+        }
     }
 
     @SuppressWarnings("ALL")
-    public void upLoadFile(File file, BaseFileRetrofit baseRetrofit, Observer observer) {
-        final ProgressResponseBody responseBody = new ProgressResponseBody(file, (BaseFileObserver<ResponseBody>) observer);
-        post(observer, (Observable) baseRetrofit.getClassApi(createClass(baseRetrofit), responseBody));
-    }
-
-    @SuppressWarnings("ALL")
-    public void downFile(BaseRetrofit baseRetrofit, BaseFileObserver observer) {
+    public void downFile(Class<?> clazz, String methodName, Map<String, Object> param, BaseFileObserver observer) {
         if (downloadInterceptor.getFileUploadObserver() == null) {
             downloadInterceptor.setBaseFileObserver(observer);
         }
-        post(observer, (Observable) baseRetrofit.getClassApi(createClass(baseRetrofit)));
+        try {
+            Method[] methods = clazz.getDeclaredMethods();
+            for (int i = 0; i < methods.length; i++) {
+                if (methodName.equals(methods[i].getName())) {
+                    Object obj = retrofit.create(clazz);
+                    post(observer, (Observable) methods[i].invoke(obj, param));
+                    return;
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
 
     @SuppressWarnings("ALL")
-    public <K1, K2> void post(Observer<K1> observer, Observable<K2> observable) {
+    private <K1, K2> void post(Observer<K1> observer, Observable<K2> observable) {
         observable.map(new Function<K2, K1>() {
             @Override
             public K1 apply(@NonNull K2 t2) throws Exception {
