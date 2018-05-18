@@ -1,6 +1,6 @@
 ![Request](https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526616733298&di=3d0e5f640dcb007c75d654eee9ee0284&imgtype=0&src=http%3A%2F%2Fi2.hdslb.com%2Fbfs%2Fface%2Fb67919843bdb57d61de63aa4370a864473fce44b.jpg)
-REQUEST 
- 基于RxJava2+retrofit2+okHttp二次封装框架5/18/2018 9:39:37 AM 
+Request
+ 基于RxJava2+retrofit2+okHttp二次封装框架
 -
 # - 引入步骤:  #
 # 1.  在project的build.gradle添加#
