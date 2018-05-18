@@ -12,9 +12,7 @@ Request
     		}
 		}
 ##  2.  在Module的build.gradle添加依赖 ##
-		dependencies {
-	        implementation 'com.github.yuanxiaotian:Request:1.0.1'
-		}
+	      implementation 'com.github.yuanxiaotian:Request:1.0.1'
 
 
 # - 使用步骤:  #
