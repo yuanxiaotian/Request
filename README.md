@@ -26,25 +26,24 @@ Request
 
 # - 使用步骤:  #
 ###  1.  普通请求 ###
-		clazz         :服务接口
-		methodName    :服务接口方法名称
-		param         :请求参数Map集合
-		observer      :回调:BaseObserver
-		HttpManage.getInstance().map(Class clazz, String methodName, Map<String, Object> param, Observer observer);
+	clazz         :服务接口
+	methodName    :服务接口方法名称
+	param         :请求参数Map集合
+	observer      :回调:BaseObserver
+	HttpManage.getInstance().map(Class clazz, String methodName, Map<String, Object> param, Observer observer);
 ###  2.  带进度回调的文件上传 ###
-		clazz         :服务接口
-        methodName    :服务接口方法名称
-        file          :上传的文件
-        param         :请求参数Map集合
-        observer      :回调:BaseFileObserver
-		HttpManage.getInstance().upLoadFile(Class clazz, String methodName, File file, Map<String, Object> param, Observer observer);
+	clazz         :服务接口
+	methodName    :服务接口方法名称
+	file          :上传的文件
+	param         :请求参数Map集合
+	observer      :回调:BaseFileObserver
+	HttpManage.getInstance().upLoadFile(Class clazz, String methodName, File file, Map<String, Object> param, Observer observer);
 ###  3.  带进度回调的文件下载 ###
-		clazz         :服务接口
-        methodName    :服务接口方法名称
-        param         :请求参数Map集合
-        observer      :回调:BaseFileObserver
-		HttpManage.getInstance().downFile(Class clazz, String methodName, Map<String, Object> param, BaseFileObserver observer);
-
+	clazz         :服务接口
+	methodName    :服务接口方法名称
+	param         :请求参数Map集合
+	observer      :回调:BaseFileObserver
+	HttpManage.getInstance().downFile(Class clazz, String methodName, Map<String, Object> param, BaseFileObserver observer);
 # - 使用说明:  #
 - 本框架有太多的不足之处,希望使用的人多多给建议,重要的是不喜勿喷
 - 如果有好的建议请联系本人QQ:781414750
