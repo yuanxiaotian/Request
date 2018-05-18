@@ -3,11 +3,12 @@ Request
  基于RxJava2+retrofit2+okHttp二次封装框架
 -
 # - 引入步骤:  #
+
 ## 1.  在project的build.gradle添加 ##
 		allprojects {
     		repositories {
         		...
-       			 maven { url "https://jitpack.io" }
+       			maven { url "https://jitpack.io" }
     		}
 		}
 ##  2.  在Module的build.gradle添加依赖 ##
