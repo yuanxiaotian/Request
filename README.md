@@ -44,6 +44,10 @@ Request
 	param         :请求参数Map集合
 	observer      :回调:BaseFileObserver
 	HttpManage.getInstance().downFile(Class clazz, String methodName, Map<String, Object> param, BaseFileObserver observer);
+###  4.  取消请求 ###
+	tag           :在服务请求的时候框架已经自动加入了Tag
+	RxHttpMange.getInstance().remove(String tag);
+	RxHttpMange.getInstance().removeAll();
 # - 使用说明:  #
 - 本框架有太多的不足之处,希望使用的人多多给建议,重要的是不喜勿喷
 - 如果有好的建议请联系本人QQ:781414750
