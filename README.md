@@ -14,14 +14,15 @@ Request
 # - 引入步骤:  #
 
 ### 1.  在project的build.gradle添加 ###
-		allprojects {
-    		repositories {
-				...
-				maven { url "https://jitpack.io" }
-    		}
-		}
+	allprojects {
+	    repositories {
+	        ...
+	        ...
+	        maven { url 'https://jitpack.io' }
+	    }
+	}
 ###  2.  在Module的build.gradle添加依赖 ###
-	      implementation 'com.github.yuanxiaotian:Request:1.0.3'
+	com.github.yuanxiaotian:Request:1.0.3
 
 
 # - 使用步骤:  #
