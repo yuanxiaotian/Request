@@ -5,10 +5,10 @@ Request
 # - 更新:  #
 
     5/18/2018 18:09:00 PM 更新
-    调整整体框架结构,使用更为简单,V1.0.3使用方法稍后更新
+    V1.0.3:调整整体框架结构,使用更为简单,使用方法稍后更新
 
     5/18/2018 10:23:02 AM 更新
-	修改引入第三方框架的方式由Implementation更改为api引入
+	V1.0.2:修改引入第三方框架的方式由Implementation更改为api引入
 
 
 # - 引入步骤:  #
@@ -21,23 +21,29 @@ Request
     		}
 		}
 ###  2.  在Module的build.gradle添加依赖 ###
-	      implementation 'com.github.yuanxiaotian:Request:1.0.1'
+	      implementation 'com.github.yuanxiaotian:Request:1.0.3'
 
 
 # - 使用步骤:  #
 ###  1.  普通请求 ###
-		baseRetrofit:传入参数1
-		observer    :传入参数2
-		HttpManage.getInstance().map(BaseRetrofit baseRetrofit, Observer observer);
+		clazz         :服务接口
+		methodName    :服务接口方法名称
+		param         :请求参数Map集合
+		observer      :回调:BaseObserver
+		HttpManage.getInstance().map(Class clazz, String methodName, Map<String, Object> param, Observer observer);
 ###  2.  带进度回调的文件上传 ###
-		file        :传入参数1
-		baseRetrofit:传入参数2
-		observer    :传入参数3
-		HttpManage.getInstance().upLoadFile(File file, BaseFileRetrofit baseRetrofit, Observer observer);
+		clazz         :服务接口
+        methodName    :服务接口方法名称
+        file          :上传的文件
+        param         :请求参数Map集合
+        observer      :回调:BaseFileObserver
+		HttpManage.getInstance().upLoadFile(Class clazz, String methodName, File file, Map<String, Object> param, Observer observer);
 ###  3.  带进度回调的文件下载 ###
-		baseRetrofit:传入参数2
-		observer    :传入参数3
-		HttpManage.getInstance().downFile(BaseRetrofit baseRetrofit, BaseFileObserver observer);
+		clazz         :服务接口
+        methodName    :服务接口方法名称
+        param         :请求参数Map集合
+        observer      :回调:BaseFileObserver
+		HttpManage.getInstance().downFile(Class clazz, String methodName, Map<String, Object> param, BaseFileObserver observer);
 # - 使用说明:  #
 - 本框架有太多的不足之处,希望使用的人多多给建议,重要的是不喜勿喷
 - 如果有好的建议请联系本人QQ:781414750
