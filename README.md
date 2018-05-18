@@ -16,8 +16,8 @@ Request
 ### 1.  在project的build.gradle添加 ###
 		allprojects {
     		repositories {
-        		...
-       			maven { url "https://jitpack.io" }
+				...
+				maven { url "https://jitpack.io" }
     		}
 		}
 ###  2.  在Module的build.gradle添加依赖 ###
