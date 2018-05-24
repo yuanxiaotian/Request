@@ -2,6 +2,8 @@ package com.cangmaomao.network.myapplication;
 
 import android.util.Log;
 
+import com.cangmaomao.network.request.BaseBean;
+
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -15,16 +17,16 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
+import retrofit2.http.Url;
 
 public interface UserApi {
 
-
-    @POST("Login/app_client_login")
+    @POST
     @FormUrlEncoded
-    Observable<Login> login(@FieldMap Map<String, Object> map);
+    Observable<Login> post(@Url String url, @FieldMap Map<String, Object> map);
 
-
-    @POST("Upload")
+    @POST
     @Multipart
-    Observable<Object> userHeadUpdate(@Part("file\"; filename=\"avatar.png\"") RequestBody requestBody,@PartMap Map<String, RequestBody> map);
+    Observable<Object> userHeadUpdate(@Url String url, @Part("file\"; filename=\"avatar.png\"") RequestBody requestBody, @PartMap Map<String, RequestBody> map);
+
 }

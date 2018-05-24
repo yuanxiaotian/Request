@@ -18,10 +18,9 @@ import okio.Sink;
 public class ProgressResponseBody extends RequestBody {
 
     private RequestBody requestBody;
-    private BufferedSource bufferedSource;
     private BaseFileObserver<ResponseBody> fileUploadObserver;
 
-    public ProgressResponseBody(File file, BaseFileObserver<ResponseBody> fileUploadObserver) {
+    public ProgressResponseBody(File file, BaseFileObserver fileUploadObserver) {
         this.requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
         this.fileUploadObserver = fileUploadObserver;
     }

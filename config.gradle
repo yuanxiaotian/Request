@@ -22,7 +22,8 @@ ext {
             multiImageSelector = "1.2",
             junit = "4.12",
             runner = "1.0.2",
-            espresso = "3.0.2"
+            espresso = "3.0.2",
+            retrofit2Adapter = "2.2.0"
     ]
 
     dependencies = [
@@ -39,7 +40,8 @@ ext {
             junit                  : "junit:junit:$rootProject.junit",
             runner                 : "com.android.support.test:runner:$rootProject.runner",
             espresso               : "com.android.support.test.espresso:espresso-core:$rootProject.espresso",
-            libRequest             : ":Lib_Request"
+            libRequest             : ":Lib_Request",
+            retrofit2Adapter       : "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit2Adapter"
     ]
 
 }

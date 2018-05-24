@@ -3,11 +3,11 @@ package com.cangmaomao.network.request;
 
 import com.cangmaomao.network.request.base.BaseFileObserver;
 import com.cangmaomao.network.request.config.Config;
+import com.cangmaomao.network.request.service.APIFunction;
+import com.cangmaomao.network.request.utils.RxSchedulers;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -36,7 +36,6 @@ public class HttpManage {
         return HttpManageHolder.INSTANCE;
     }
 
-
     HttpManage() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
@@ -58,78 +57,57 @@ public class HttpManage {
                 .build();
     }
 
-
-    @SuppressWarnings("ALL")
-    public void map(Class clazz, String methodName, Map<String, Object> param, Observer observer) {
-        try {
-            Method[] methods = clazz.getDeclaredMethods();
-            for (int i = 0; i < methods.length; i++) {
-                if (methodName.equals(methods[i].getName())) {
-                    Object obj = retrofit.create(clazz);
-                    post(observer, (Observable) methods[i].invoke(obj, param));
-                    return;
-                }
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
+    public <T> T create(Class<T> clazz) {
+        return retrofit.create(clazz);
     }
 
+    /**
+     * 单上传文件的封装 多参数
+     *
+     * @param url                完整的接口地址
+     * @param file               需要上传的文件
+     * @param fileUploadObserver 上传回调
+     */
     @SuppressWarnings("ALL")
-    public void upLoadFile(Class<?> clazz, String methodName, File file, Map<String, Object> param, Observer observer) {
-        try {
-            Method[] methods = clazz.getDeclaredMethods();
-            for (int i = 0; i < methods.length; i++) {
-                if (methodName.equals(methods[i].getName())) {
-                    Object obj = retrofit.create(clazz);
-                    RequestBody body = new ProgressResponseBody(file, (BaseFileObserver) observer);
-                    Observable observable = (Observable) methods[i].invoke(obj, body, param);
-                    post(observer, observable);
-                    return;
-                }
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.getTargetException().printStackTrace();
-        }
+    public void upLoadFile(String url, File file, Map<String, RequestBody> map, BaseFileObserver fileUploadObserver) {
+        create(APIFunction.class)
+                .uploadFile(url, new ProgressResponseBody(file, fileUploadObserver), map)
+                .compose(RxSchedulers.io_main())
+                .subscribe(fileUploadObserver);
     }
 
+    /**
+     * 单上传文件的封装 无参数
+     *
+     * @param url                完整的接口地址
+     * @param file               需要上传的文件
+     * @param fileUploadObserver 上传回调
+     */
     @SuppressWarnings("ALL")
-    public void downFile(Class<?> clazz, String methodName, Map<String, Object> param, BaseFileObserver observer) {
+    public void upLoadFile(String url, File file, BaseFileObserver fileUploadObserver) {
+        create(APIFunction.class)
+                .uploadFile(url, new ProgressResponseBody(file, fileUploadObserver))
+                .compose(RxSchedulers.io_main())
+                .subscribe(fileUploadObserver);
+    }
+
+
+    /**
+     * 单下载文件的封装 无参数
+     *
+     * @param url                完整的接口地址
+     * @param fileUploadObserver 上传回调
+     */
+    @SuppressWarnings("ALL")
+    public void downFile(String url, BaseFileObserver observer) {
         if (downloadInterceptor.getFileUploadObserver() == null) {
             downloadInterceptor.setBaseFileObserver(observer);
         }
-        try {
-            Method[] methods = clazz.getDeclaredMethods();
-            for (int i = 0; i < methods.length; i++) {
-                if (methodName.equals(methods[i].getName())) {
-                    Object obj = retrofit.create(clazz);
-                    post(observer, (Observable) methods[i].invoke(obj, param));
-                    return;
-                }
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    @SuppressWarnings("ALL")
-    private <K1, K2> void post(Observer<K1> observer, Observable<K2> observable) {
-        observable.map(new Function<K2, K1>() {
-            @Override
-            public K1 apply(@NonNull K2 t2) throws Exception {
-                return (K1) t2;
-            }
-        })
-                .subscribeOn(Schedulers.io())//指定网络请求在io线程
-                .observeOn(AndroidSchedulers.mainThread())//指定返回结果处理在主线程，这样我们就可以在onnext中更新ui了
+        create(APIFunction.class)
+                .download(url)
+                .compose(RxSchedulers.io_main())
                 .subscribe(observer);
     }
+
 
 }
