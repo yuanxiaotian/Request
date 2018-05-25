@@ -26,12 +26,23 @@ Request
 
 
 # - 使用步骤:  #
+###  0.  请求配置 ###
+- 在你的Application配置你的baseUrl
+    Config.S_HTTP_ROOT_URL ="http://www.baidu.com/";
+- 普通请求api.class接口写法
+    url           :完整的请求地址
+    param         :请求参数Map集合
+    @POST
+    @FormUrlEncoded
+    Observable<Login> post(@Url String url, @FieldMap Map<String, Object> map);
+
+
 ###  1.  普通请求 ###
 	clazz         :服务接口
-	methodName    :服务接口方法名称
+	url           :完整的请求地址
 	param         :请求参数Map集合
 	observer      :回调:BaseObserver
-	HttpManage.getInstance().map(Class clazz, String methodName, Map<String, Object> param, Observer observer);
+	HttpManage.getInstance().create(Class clazz).post(String url, Map<String, Object> param).compose(RxSchedulers rx).subscribe(BaseObserver o)
 ###  2.  带进度回调的文件上传 ###
 	clazz         :服务接口
 	methodName    :服务接口方法名称
