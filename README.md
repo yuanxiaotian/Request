@@ -45,10 +45,7 @@ Request
 	url           :完整的请求地址
 	param         :请求参数Map集合
 	observer      :回调:BaseObserver
-	HttpManage.getInstance()
-                    .create(UserApi.class)
-                    .post(url, map)
-                    .compose(RxSchedulers.<Login>io_main())
+	HttpManage.getInstance().create(UserApi.class).post(url, map).compose(RxSchedulers.<Login>io_main())
                     .subscribe(new BaseObserver<Login>(TAG) {
                         @Override
                         public void success(Login login) {
@@ -61,18 +58,46 @@ Request
                         }
                     });
 ###  2.  带进度回调的文件上传 ###
-	clazz         :服务接口
-	methodName    :服务接口方法名称
+	url           :完整的请求地址
 	file          :上传的文件
 	param         :请求参数Map集合
 	observer      :回调:BaseFileObserver
-	HttpManage.getInstance().upLoadFile(Class clazz, String methodName, File file, Map<String, Object> param, Observer observer);
+	HttpManage.getInstance().upLoadFile(url, file, map, new BaseFileObserver<ResponseBody>(TAG) {
+                            @Override
+                            public void success(ResponseBody body) {
+
+                            }
+
+                            @Override
+                            public void fail(String err) {
+
+                            }
+
+                            @Override
+                            public void progress(long bytesWritten, long contentLength) {
+
+                            }
+                        });
 ###  3.  带进度回调的文件下载 ###
-	clazz         :服务接口
-	methodName    :服务接口方法名称
+	url           :完整的请求地址
 	param         :请求参数Map集合
 	observer      :回调:BaseFileObserver
-	HttpManage.getInstance().downFile(Class clazz, String methodName, Map<String, Object> param, BaseFileObserver observer);
+	HttpManage.getInstance().downFile(url, new BaseFileObserver<ResponseBody>(TAG) {
+                    @Override
+                    public void success(ResponseBody body) {
+
+                    }
+
+                    @Override
+                    public void fail(String err) {
+
+                    }
+
+                    @Override
+                    public void progress(final long bytesWritten, final long contentLength) {
+
+                    }
+                });
 ###  4.  取消请求 ###
 	tag           :在服务请求的时候框架已经自动加入了Tag
 	RxHttpMange.getInstance().remove(String tag);
