@@ -62,42 +62,12 @@ Request
 	file          :上传的文件
 	param         :请求参数Map集合
 	observer      :回调:BaseFileObserver
-	HttpManage.getInstance().upLoadFile(url, file, map, new BaseFileObserver<ResponseBody>(TAG) {
-                            @Override
-                            public void success(ResponseBody body) {
-
-                            }
-
-                            @Override
-                            public void fail(String err) {
-
-                            }
-
-                            @Override
-                            public void progress(long bytesWritten, long contentLength) {
-
-                            }
-                        });
+	HttpManage.getInstance().upLoadFile(String url, File file, BaseFileObserver fileUploadObserver)
+	HttpManage.getInstance().upLoadFile(String url, File file, Map<String, RequestBody> map, BaseFileObserver fileUploadObserver)
 ###  3.  带进度回调的文件下载 ###
 	url           :完整的请求地址
-	param         :请求参数Map集合
 	observer      :回调:BaseFileObserver
-	HttpManage.getInstance().downFile(url, new BaseFileObserver<ResponseBody>(TAG) {
-                    @Override
-                    public void success(ResponseBody body) {
-
-                    }
-
-                    @Override
-                    public void fail(String err) {
-
-                    }
-
-                    @Override
-                    public void progress(final long bytesWritten, final long contentLength) {
-
-                    }
-                });
+	HttpManage.getInstance().downFile(String url, BaseFileObserver observer)
 ###  4.  取消请求 ###
 	tag           :在服务请求的时候框架已经自动加入了Tag
 	RxHttpMange.getInstance().remove(String tag);
