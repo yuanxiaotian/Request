@@ -22,7 +22,7 @@ Request
 	    }
 	}
 ###  2.  在Module的build.gradle添加依赖 ###
-	com.github.yuanxiaotian:Request:1.0.3
+	com.github.yuanxiaotian:Request:1.0.4
 
 
 # - 使用步骤:  #
