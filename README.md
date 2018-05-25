@@ -37,7 +37,7 @@ Request
      param :请求参数Map集合
      @POST
      @FormUrlEncoded
-     Observable<Loginpost(@Url String url, @FieldMap Map<String, Objectmap);
+     Observable<Login> post(@Url String url, @FieldMap Map<String, Objectmap);
 
 
 ###  1.  普通请求 ###
