@@ -45,7 +45,21 @@ Request
 	url           :完整的请求地址
 	param         :请求参数Map集合
 	observer      :回调:BaseObserver
-	HttpManage.getInstance().create(Class clazz).post(String url, Map<String, Object> param).compose(RxSchedulers rx).subscribe(BaseObserver o)
+	HttpManage.getInstance()
+                    .create(UserApi.class)
+                    .post(url, map)
+                    .compose(RxSchedulers.<Login>io_main())
+                    .subscribe(new BaseObserver<Login>(TAG) {
+                        @Override
+                        public void success(Login login) {
+
+                        }
+
+                        @Override
+                        public void fail(String err) {
+
+                        }
+                    });
 ###  2.  带进度回调的文件上传 ###
 	clazz         :服务接口
 	methodName    :服务接口方法名称
