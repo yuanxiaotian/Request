@@ -3,6 +3,8 @@ package com.cangmaomao.network.request;
 
 import com.cangmaomao.network.request.base.BaseFileObserver;
 import com.cangmaomao.network.request.config.Config;
+import com.cangmaomao.network.request.interceptor.AbsInterceptor;
+import com.cangmaomao.network.request.interceptor.DownloadInterceptor;
 import com.cangmaomao.network.request.service.APIFunction;
 import com.cangmaomao.network.request.utils.RxSchedulers;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -37,8 +39,8 @@ public class HttpManage {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addNetworkInterceptor(interceptor)
                 .addInterceptor(downloadInterceptor)
-                .addInterceptor(Config.readInterceptor)
-                .addInterceptor(Config.writeInterceptor)
+                .addInterceptor(AbsInterceptor.readInterceptor)
+                .addInterceptor(AbsInterceptor.writeInterceptor)
                 .retryOnConnectionFailure(true)
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
