@@ -1,5 +1,6 @@
-package com.cangmaomao.network.request;
+package com.cangmaomao.network.request.interceptor;
 
+import com.cangmaomao.network.request.ProgressDownResponseBody;
 import com.cangmaomao.network.request.base.BaseFileObserver;
 
 import java.io.IOException;
