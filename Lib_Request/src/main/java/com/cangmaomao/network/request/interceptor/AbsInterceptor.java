@@ -7,6 +7,9 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * 更新2018/06/11 23:05
+ */
 public class AbsInterceptor {
 
     @NonNull
