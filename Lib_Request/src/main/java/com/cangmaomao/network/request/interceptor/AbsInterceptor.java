@@ -7,24 +7,16 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * 更新2018/06/11 23:05
+ */
 public class AbsInterceptor {
 
     @NonNull
-    public static Interceptor writeInterceptor = new Interceptor() {
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            return chain.proceed(chain.request());
-        }
-    };
+    public static Interceptor writeInterceptor = chain -> chain.proceed(chain.request());
 
     @NonNull
-    public static Interceptor readInterceptor = new Interceptor() {
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request.Builder builder = chain.request().newBuilder();
-            return chain.proceed(builder.build());
-        }
-    };
+    public static Interceptor readInterceptor = chain -> chain.proceed(chain.request().newBuilder().build());
 
 
 }
