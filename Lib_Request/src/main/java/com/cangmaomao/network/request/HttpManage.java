@@ -2,6 +2,7 @@ package com.cangmaomao.network.request;
 
 
 import com.cangmaomao.network.request.base.BaseFileObserver;
+import com.cangmaomao.network.request.base.BaseObserver;
 import com.cangmaomao.network.request.config.Config;
 import com.cangmaomao.network.request.interceptor.AbsInterceptor;
 import com.cangmaomao.network.request.interceptor.DownloadInterceptor;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -103,6 +105,20 @@ public class HttpManage {
         }
         create(APIFunction.class)
                 .download(url)
+                .compose(RxSchedulers.io_main())
+                .subscribe(observer);
+    }
+
+    @SuppressWarnings("ALL")
+    public void concat(Observable<?> observable1, Observable<?> observable2, BaseObserver observer) {
+        Observable.concat(observable1, observable2)
+                .compose(RxSchedulers.io_main())
+                .subscribe(observer);
+    }
+
+    @SuppressWarnings("ALL")
+    public void concat(Observable<?> observable1, Observable<?> observable2, Observable<?> observable3, BaseObserver observer) {
+        Observable.concat(observable1, observable2, observable3)
                 .compose(RxSchedulers.io_main())
                 .subscribe(observer);
     }
