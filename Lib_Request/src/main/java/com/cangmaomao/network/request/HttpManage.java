@@ -4,17 +4,18 @@ package com.cangmaomao.network.request;
 import com.cangmaomao.network.request.base.BaseFileObserver;
 import com.cangmaomao.network.request.base.BaseObserver;
 import com.cangmaomao.network.request.config.Config;
-import com.cangmaomao.network.request.interceptor.AbsInterceptor;
 import com.cangmaomao.network.request.interceptor.DownloadInterceptor;
 import com.cangmaomao.network.request.service.APIFunction;
 import com.cangmaomao.network.request.utils.RxSchedulers;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -24,6 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HttpManage {
 
     private Retrofit retrofit;
+    private OkHttpClient client;
     private DownloadInterceptor downloadInterceptor;
 
     private static class HttpManageHolder {
@@ -38,11 +40,9 @@ public class HttpManage {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         downloadInterceptor = new DownloadInterceptor();
-        OkHttpClient client = new OkHttpClient.Builder()
+        client = new OkHttpClient.Builder()
                 .addNetworkInterceptor(interceptor)
                 .addInterceptor(downloadInterceptor)
-                .addInterceptor(AbsInterceptor.readInterceptor)
-                .addInterceptor(AbsInterceptor.writeInterceptor)
                 .retryOnConnectionFailure(true)
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
@@ -55,6 +55,10 @@ public class HttpManage {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
+    }
+
+    public List<Interceptor> getInterceptors() {
+        return client.interceptors();
     }
 
     public <T> T create(Class<T> clazz) {
