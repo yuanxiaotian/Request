@@ -51,7 +51,7 @@ public class HttpManage {
         client = new OkHttpClient.Builder()
                 .addNetworkInterceptor(interceptor)
                 .addInterceptor(downloadInterceptor)
-                .cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(AbsCookieJar.mContext)))
+                .cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(AbsCookieJar.getContext())))
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
