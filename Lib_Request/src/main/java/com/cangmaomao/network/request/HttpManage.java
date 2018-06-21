@@ -65,10 +65,6 @@ public class HttpManage {
         return retrofit.create(clazz);
     }
 
-    public List<Interceptor> getInterceptors() {
-        return client.interceptors();
-    }
-
     /**
      * 单上传文件的封装 多参数
      *
