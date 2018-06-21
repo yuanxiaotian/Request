@@ -57,8 +57,10 @@ public class HttpManage {
                 .build();
     }
 
-    public List<Interceptor> getInterceptors() {
-        return client.interceptors();
+    public void addInterceptor(Interceptor... interceptors) {
+        for (Interceptor i : interceptors) {
+            client.interceptors().add(i);
+        }
     }
 
     public <T> T create(Class<T> clazz) {
