@@ -40,6 +40,7 @@ ext {
             junit                  : "junit:junit:$rootProject.junit",
             runner                 : "com.android.support.test:runner:$rootProject.runner",
             espresso               : "com.android.support.test.espresso:espresso-core:$rootProject.espresso",
+            persistentCookieJar    : "com.github.franmontiel:PersistentCookieJar:v1.0.1",
             libRequest             : ":Lib_Request",
             retrofit2Adapter       : "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit2Adapter"
     ]
