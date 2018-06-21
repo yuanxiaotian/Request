@@ -3,27 +3,21 @@ package com.cangmaomao.network.request;
 
 import com.cangmaomao.network.request.base.BaseFileObserver;
 import com.cangmaomao.network.request.base.BaseObserver;
+import com.cangmaomao.network.request.cache.SetCookieCache;
 import com.cangmaomao.network.request.config.Config;
 import com.cangmaomao.network.request.cookie.AbsCookieJar;
 import com.cangmaomao.network.request.interceptor.DownloadInterceptor;
+import com.cangmaomao.network.request.persistence.SharedPrefsCookiePersistor;
 import com.cangmaomao.network.request.service.APIFunction;
 import com.cangmaomao.network.request.utils.RxSchedulers;
-import com.franmontiel.persistentcookiejar.PersistentCookieJar;
-import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
-import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.prefs.Preferences;
 
 import io.reactivex.Observable;
-import okhttp3.Cookie;
 import okhttp3.CookieJar;
-import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -33,7 +27,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HttpManage {
 
     private Retrofit retrofit;
-    private OkHttpClient client;
     private DownloadInterceptor downloadInterceptor;
 
     private static class HttpManageHolder {
@@ -48,6 +41,7 @@ public class HttpManage {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         downloadInterceptor = new DownloadInterceptor();
+        OkHttpClient client;
         if (AbsCookieJar.mContext == null) {
             client = new OkHttpClient.Builder()
                     .addNetworkInterceptor(interceptor)
