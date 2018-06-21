@@ -4,18 +4,26 @@ package com.cangmaomao.network.request;
 import com.cangmaomao.network.request.base.BaseFileObserver;
 import com.cangmaomao.network.request.base.BaseObserver;
 import com.cangmaomao.network.request.config.Config;
+import com.cangmaomao.network.request.cookie.AbsCookieJar;
 import com.cangmaomao.network.request.interceptor.DownloadInterceptor;
 import com.cangmaomao.network.request.service.APIFunction;
 import com.cangmaomao.network.request.utils.RxSchedulers;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.prefs.Preferences;
 
 import io.reactivex.Observable;
-import okhttp3.Interceptor;
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -43,7 +51,7 @@ public class HttpManage {
         client = new OkHttpClient.Builder()
                 .addNetworkInterceptor(interceptor)
                 .addInterceptor(downloadInterceptor)
-                .retryOnConnectionFailure(true)
+                .cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(AbsCookieJar.mContext)))
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
@@ -55,12 +63,6 @@ public class HttpManage {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
-    }
-
-    public void addInterceptor(Interceptor... interceptors) {
-        for (Interceptor i : interceptors) {
-            client.interceptors().add(i);
-        }
     }
 
     public <T> T create(Class<T> clazz) {
