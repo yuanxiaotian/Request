@@ -48,14 +48,25 @@ public class HttpManage {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         downloadInterceptor = new DownloadInterceptor();
-        client = new OkHttpClient.Builder()
-                .addNetworkInterceptor(interceptor)
-                .addInterceptor(downloadInterceptor)
-                .cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(AbsCookieJar.getContext())))
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .writeTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(10, TimeUnit.SECONDS)
-                .build();
+        if (AbsCookieJar.mContext == null) {
+            client = new OkHttpClient.Builder()
+                    .addNetworkInterceptor(interceptor)
+                    .addInterceptor(downloadInterceptor)
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .writeTimeout(10, TimeUnit.SECONDS)
+                    .readTimeout(10, TimeUnit.SECONDS)
+                    .build();
+        } else {
+            client = new OkHttpClient.Builder()
+                    .addNetworkInterceptor(interceptor)
+                    .addInterceptor(downloadInterceptor)
+                    .cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(AbsCookieJar.mContext)))
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .writeTimeout(10, TimeUnit.SECONDS)
+                    .readTimeout(10, TimeUnit.SECONDS)
+                    .build();
+        }
+
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(Config.S_HTTP_ROOT_URL)

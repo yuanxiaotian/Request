@@ -8,8 +8,5 @@ public class AbsCookieJar {
     public static Context mContext;
 
 
-    public static Context getContext() {
-        return mContext;
-    }
 
 }
