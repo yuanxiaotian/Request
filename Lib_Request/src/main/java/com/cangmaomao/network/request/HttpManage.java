@@ -161,7 +161,7 @@ public class HttpManage {
             mViewGroup.removeView(loadingErr);
         }
         if (loading == null) {
-            loading = LayoutInflater.from(view.getContext()).inflate(R.layout.loading_view, null);
+            loading = LayoutInflater.from(view.getContext()).inflate(!flag ? R.layout.loading_view : R.layout.dialog_view, null);
             ZLoadingView zLoadingView = loading.findViewById(R.id.zLoadingView);
             zLoadingView.setLoadingBuilder(Z_TYPE.DOUBLE_CIRCLE);
             zLoadingView.setColorFilter(Color.BLACK);

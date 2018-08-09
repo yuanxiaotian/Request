@@ -9,12 +9,10 @@
 
 
     <com.zyao89.view.zloading.ZLoadingView
-        android:id="@+id/progressBar"
+        android:id="@+id/zLoadingView"
         style="@style/Base.Widget.AppCompat.ProgressBar"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        app:z_type="DoubleCircleBuilder"
-        app:z_color="@android:color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,6 +26,6 @@
         android:textSize="13sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/zLoadingView" />
 
 </android.support.constraint.ConstraintLayout>
