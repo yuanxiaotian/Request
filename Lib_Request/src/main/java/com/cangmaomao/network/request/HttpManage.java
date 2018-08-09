@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cangmaomao.network.request.base.BaseFileObserver;
-import com.cangmaomao.network.request.base.BaseObserver;
 import com.cangmaomao.network.request.cache.SetCookieCache;
 import com.cangmaomao.network.request.config.Config;
 import com.cangmaomao.network.request.cookie.AbsCookieJar;
@@ -138,17 +137,18 @@ public class HttpManage {
     }
 
     @SuppressWarnings("ALL")
-    public void concat(Observable<?> observable1, Observable<?> observable2, BaseObserver observer) {
-        Observable.concat(observable1, observable2)
-                .compose(RxSchedulers.io_main())
-                .subscribe(observer);
+    public Observable<Object> concat(Observable<?> observable1, Observable<?> observable2) {
+        return Observable.concat(observable1, observable2);
     }
 
     @SuppressWarnings("ALL")
-    public void concat(Observable<?> observable1, Observable<?> observable2, Observable<?> observable3, BaseObserver observer) {
-        Observable.concat(observable1, observable2, observable3)
-                .compose(RxSchedulers.io_main())
-                .subscribe(observer);
+    public Observable<Object> concat(Observable<?> observable1, Observable<?> observable2, Observable<?> observable3) {
+        return Observable.concat(observable1, observable2, observable3);
+    }
+
+    @SuppressWarnings("ALL")
+    public Observable<Object> concat(Observable<?> observable1, Observable<?> observable2, Observable<?> observable3, Observable<?> observable4) {
+        return Observable.concat(observable1, observable2, observable3, observable4);
     }
 
     @SuppressLint("InflateParams")
