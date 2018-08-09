@@ -1,22 +1,13 @@
 package com.cangmaomao.network.request.base;
 
-import com.cangmaomao.network.request.RxHttpMange;
-
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 public abstract class BaseObserver<T> implements Observer<T> {
 
-    private String tag;
-
-    protected BaseObserver(String Tag) {
-        tag = tag;
-    }
-
 
     @Override
     public void onSubscribe(Disposable d) {
-        RxHttpMange.getInstance().add(tag, d);
     }
 
     @Override

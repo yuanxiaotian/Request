@@ -14,7 +14,6 @@ public class DownloadInterceptor implements Interceptor {
 
     private BaseFileObserver fileUploadObserver;
 
-
     @Override
     public Response intercept(Chain chain) throws IOException {
         Response response = chain.proceed(chain.request());

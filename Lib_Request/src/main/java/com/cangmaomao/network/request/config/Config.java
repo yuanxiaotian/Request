@@ -10,4 +10,11 @@ public class Config {
 
     //全局3  https://g37.gdl.netease.com/onmyoji_netease_23_1.0.40.apk
 //    public static final String S_HTTP_ROOT_URL = "https://g37.gdl.netease.com/";
+
+
+    //全局token key
+    public static String TO_KEN_KEY = "token";
+
+    //全局token VAL
+    public static String TO_KEN_VAL = "";
 }

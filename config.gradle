@@ -1,12 +1,13 @@
 ext {
 
     android = [
-            compileSdkVersion: 27,
-            minSdkVersion    : 14,
-            targetSdkVersion : 27,
-            versionCode      : 1,
-            versionName      : "1.0.0",
-            applicationId    : "com.cangmaomao.network.myapplication"
+            sdk_version  : 27,
+            min_sdk      : 16,
+            target_sdk   : 27,
+            code         : 3,
+            name         : "1.0.0",
+            tools_version: "27.0.3",
+            applicationId: "com.cangmaomao.network.myapplication"
     ]
 
     libsVersion = [
@@ -41,7 +42,9 @@ ext {
             runner                 : "com.android.support.test:runner:$rootProject.runner",
             espresso               : "com.android.support.test.espresso:espresso-core:$rootProject.espresso",
             libRequest             : ":Lib_Request",
-            retrofit2Adapter       : "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit2Adapter"
+            retrofit2Adapter       : "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit2Adapter",
+            zloading               : "com.zyao89:zloading:1.0.11"
+
     ]
 
 }

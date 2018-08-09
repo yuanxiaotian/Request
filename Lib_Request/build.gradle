@@ -3,12 +3,12 @@ apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.yuanxiaotian'
 
 android {
-    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    compileSdkVersion rootProject.ext.android.sdk_version
     defaultConfig {
-        minSdkVersion rootProject.ext.android.minSdkVersion
-        targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode rootProject.ext.android.versionCode
-        versionName rootProject.ext.android.versionName
+        minSdkVersion rootProject.ext.android.min_sdk
+        targetSdkVersion rootProject.ext.android.target_sdk
+        versionCode rootProject.ext.android.code
+        versionName rootProject.ext.android.name
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -37,5 +37,6 @@ dependencies {
     api rootProject.ext.dependencies.loggingInterceptor
     api rootProject.ext.dependencies.rxjava
     api rootProject.ext.dependencies.rxandroid
+    api rootProject.ext.dependencies.zloading
     api rootProject.ext.dependencies.multiImageSelector
 }
