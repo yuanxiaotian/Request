@@ -2,6 +2,7 @@ package com.cangmaomao.network.request;
 
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +20,8 @@ import com.cangmaomao.network.request.persistence.SharedPrefsCookiePersistor;
 import com.cangmaomao.network.request.service.APIFunction;
 import com.cangmaomao.network.request.utils.RxSchedulers;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.zyao89.view.zloading.ZLoadingView;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import java.io.File;
 import java.util.Map;
@@ -157,10 +160,17 @@ public class HttpManage {
         if (loadingErr != null) {
             mViewGroup.removeView(loadingErr);
         }
+        if (loading == null) {
+            loading = LayoutInflater.from(view.getContext()).inflate(R.layout.loading_view, null);
+            ZLoadingView zLoadingView = loading.findViewById(R.id.zLoadingView);
+            zLoadingView.setLoadingBuilder(Z_TYPE.DOUBLE_CIRCLE);
+            zLoadingView.setColorFilter(Color.BLACK);
+
+        }
         if (flag) {
             if (dialog == null) {
                 dialog = new AlertDialog.Builder(view.getContext(), R.style.DialogTheme).create();
-                dialog.setView(View.inflate(view.getContext(), R.layout.dialog_view, null));
+                dialog.setView(loading);
             }
             dialog.show();
         } else {
@@ -170,9 +180,6 @@ public class HttpManage {
                 if (!(childAt instanceof Toolbar)) {
                     childAt.setVisibility(View.GONE);
                 }
-            }
-            if (loading == null) {
-                loading = LayoutInflater.from(view.getContext()).inflate(R.layout.loading_view, null);
             }
             layoutParams(loading);
             view.addView(loading);

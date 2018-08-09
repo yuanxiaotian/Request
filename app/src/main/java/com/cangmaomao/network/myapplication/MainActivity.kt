@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loading(): Disposable {
         return HttpManage.getInstance()
-                .loadingView(constraintLayout, false)
+                .loadingView(constraintLayout, true)
                 .create(UserApi::class.java)
                 .post(url, map)
                 .compose(RxSchedulers.io_main())
