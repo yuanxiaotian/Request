@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/shape_square_loading"
-    android:padding="20dp">
+    android:padding="20dp"
+    android:layout_gravity="center">
 
 
     <com.zyao89.view.zloading.ZLoadingView

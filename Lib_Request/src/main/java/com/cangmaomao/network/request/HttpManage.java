@@ -158,25 +158,26 @@ public class HttpManage {
     public HttpManage loadingView(ViewGroup view, boolean flag) {
         if (loadingErr != null) {
             mViewGroup.removeView(loadingErr);
+            removeViewParent(loadingErr);
         }
 
         if (loading != null) {
             mViewGroup.removeView(loading);
+            removeViewParent(loading);
         }
 
         this.mViewGroup = view;
 
         if (loading == null) {
-            loading = LayoutInflater.from(view.getContext()).inflate(!flag ? R.layout.loading_view : R.layout.dialog_view, null);
+            loading = LayoutInflater.from(view.getContext()).inflate(R.layout.loading_view, null);
             ZLoadingView zLoadingView = loading.findViewById(R.id.zLoadingView);
             zLoadingView.setLoadingBuilder(Z_TYPE.DOUBLE_CIRCLE);
             zLoadingView.setColorFilter(Color.BLACK);
-
         }
         if (flag) {
             if (dialog == null) {
                 dialog = new AlertDialog.Builder(view.getContext(), R.style.DialogTheme).create();
-                dialog.setView(loading);
+                dialog.setView(LayoutInflater.from(view.getContext()).inflate(R.layout.dialog_view, null));
             }
             dialog.show();
         } else {
@@ -188,7 +189,7 @@ public class HttpManage {
                 }
             }
             layoutParams(loading);
-            view.addView(loading);
+            mViewGroup.addView(loading);
         }
         return this;
     }
@@ -213,6 +214,13 @@ public class HttpManage {
             params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
         }
         view.setLayoutParams(params);
+    }
+
+    private void removeViewParent(View view) {
+        if (view == null) return;
+        ViewGroup viewGroup = (ViewGroup) view.getParent();
+        if (viewGroup == null) return;
+        viewGroup.removeView(view);
     }
 
     public void loadingEnd() {

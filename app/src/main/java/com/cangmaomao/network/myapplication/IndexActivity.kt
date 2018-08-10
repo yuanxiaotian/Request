@@ -1,6 +1,5 @@
 package com.cangmaomao.network.myapplication
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.cangmaomao.network.request.HttpManage
@@ -9,8 +8,8 @@ import com.cangmaomao.network.request.utils.RxSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
 
+class IndexActivity :AppCompatActivity() {
 
-class MainActivity : AppCompatActivity() {
 
     private lateinit var map: MutableMap<String, Any>
 
@@ -18,6 +17,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         setContentView(R.layout.activity_main)
 
         map = mutableMapOf()
@@ -27,14 +28,11 @@ class MainActivity : AppCompatActivity() {
         map["loginid"] = 1212
 
         RxHttpMange.getInstance().add(MainActivity::class.java.simpleName, loading())
-
-
-        appCompatButton.setOnClickListener { startActivity(Intent(this,IndexActivity::class.java)) }
     }
 
     private fun loading(): Disposable {
         return HttpManage.getInstance()
-                .loadingView(constraintLayout, true)
+                .loadingView(constraintLayout, false)
                 .create(UserApi::class.java)
                 .post(url, map)
                 .compose(RxSchedulers.io_main())
@@ -45,6 +43,4 @@ class MainActivity : AppCompatActivity() {
         RxHttpMange.getInstance().remove(MainActivity::class.java.simpleName)
         HttpManage.getInstance().loadingErr { loading() }
     }
-
 }
-
