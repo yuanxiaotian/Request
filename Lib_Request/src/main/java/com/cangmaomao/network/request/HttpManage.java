@@ -156,10 +156,16 @@ public class HttpManage {
 
     @SuppressLint("InflateParams")
     public HttpManage loadingView(ViewGroup view, boolean flag) {
-        this.mViewGroup = view;
         if (loadingErr != null) {
             mViewGroup.removeView(loadingErr);
         }
+
+        if (loading != null) {
+            mViewGroup.removeView(loading);
+        }
+
+        this.mViewGroup = view;
+
         if (loading == null) {
             loading = LayoutInflater.from(view.getContext()).inflate(!flag ? R.layout.loading_view : R.layout.dialog_view, null);
             ZLoadingView zLoadingView = loading.findViewById(R.id.zLoadingView);
