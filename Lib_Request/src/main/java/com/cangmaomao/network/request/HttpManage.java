@@ -159,15 +159,11 @@ public class HttpManage {
         }
 
         if (loading != null) {
-            mViewGroup.removeView(loading);
             removeViewParent(loading);
         }
 
         this.mViewGroup = view;
 
-        if (loading == null) {
-            loading = LayoutInflater.from(view.getContext()).inflate(R.layout.loading_view, null);
-        }
         if (flag) {
             if (dialog == null) {
                 dialog = new AlertDialog.Builder(view.getContext(), R.style.DialogTheme).create();
@@ -175,6 +171,9 @@ public class HttpManage {
             }
             dialog.show();
         } else {
+            if (loading == null) {
+                loading = LayoutInflater.from(view.getContext()).inflate(R.layout.loading_view, null);
+            }
             int size = view.getChildCount();
             for (int i = 0; i < size; i++) {
                 View childAt = view.getChildAt(i);
