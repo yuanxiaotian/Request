@@ -155,11 +155,6 @@ public class HttpManage {
     public HttpManage loadingView(ViewGroup view, boolean flag) {
         if (loadingErr != null) {
             mViewGroup.removeView(loadingErr);
-            removeViewParent(loadingErr);
-        }
-
-        if (loading != null) {
-            removeViewParent(loading);
         }
 
         this.mViewGroup = view;
@@ -171,9 +166,7 @@ public class HttpManage {
             }
             dialog.show();
         } else {
-            if (loading == null) {
-                loading = LayoutInflater.from(view.getContext()).inflate(R.layout.loading_view, null);
-            }
+            loading = LayoutInflater.from(view.getContext()).inflate(R.layout.loading_view, null);
             int size = view.getChildCount();
             for (int i = 0; i < size; i++) {
                 View childAt = view.getChildAt(i);
@@ -207,13 +200,6 @@ public class HttpManage {
             params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
         }
         view.setLayoutParams(params);
-    }
-
-    private void removeViewParent(View view) {
-        if (view == null) return;
-        ViewGroup viewGroup = (ViewGroup) view.getParent();
-        if (viewGroup == null) return;
-        viewGroup.removeView(view);
     }
 
     public void loadingEnd() {
