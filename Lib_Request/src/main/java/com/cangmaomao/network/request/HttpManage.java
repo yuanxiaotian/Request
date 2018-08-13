@@ -205,6 +205,7 @@ public class HttpManage {
     public void loadingEnd() {
         if (dialog != null) {
             dialog.dismiss();
+            dialog = null;
             return;
         }
         int size = mViewGroup.getChildCount();
