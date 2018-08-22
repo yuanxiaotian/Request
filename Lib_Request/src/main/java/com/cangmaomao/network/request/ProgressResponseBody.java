@@ -20,9 +20,22 @@ public class ProgressResponseBody extends RequestBody {
     private RequestBody requestBody;
     private BaseFileObserver<ResponseBody> fileUploadObserver;
 
-    public ProgressResponseBody(File file, BaseFileObserver fileUploadObserver) {
-        this.requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
+    public ProgressResponseBody(Object object, BaseFileObserver fileUploadObserver) {
+        if (object instanceof File) {
+            this.requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), (File) object);
+        } else {
+            this.requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), (byte[]) object);
+        }
         this.fileUploadObserver = fileUploadObserver;
+    }
+
+
+    public ProgressResponseBody(Object object) {
+        if (object instanceof File) {
+            this.requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), (File) object);
+        } else {
+            this.requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), (byte[]) object);
+        }
     }
 
 

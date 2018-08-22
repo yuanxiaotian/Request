@@ -28,8 +28,10 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -99,9 +101,9 @@ public class HttpManage {
      * @param fileUploadObserver 上传回调
      */
     @SuppressWarnings("ALL")
-    public void upLoadFile(String url, File file, Map<String, RequestBody> map, BaseFileObserver fileUploadObserver) {
+    public void upLoadFile(String url, Object object, Map<String, RequestBody> map, BaseFileObserver fileUploadObserver) {
         create(APIFunction.class)
-                .uploadFile(url, new ProgressResponseBody(file, fileUploadObserver), map)
+                .uploadFile(url, new ProgressResponseBody(object, fileUploadObserver), map)
                 .compose(RxSchedulers.io_main())
                 .subscribe(fileUploadObserver);
     }
@@ -114,11 +116,24 @@ public class HttpManage {
      * @param fileUploadObserver 上传回调
      */
     @SuppressWarnings("ALL")
-    public void upLoadFile(String url, File file, BaseFileObserver fileUploadObserver) {
+    public void upLoadFile(String url, Object object, BaseFileObserver fileUploadObserver) {
         create(APIFunction.class)
-                .uploadFile(url, new ProgressResponseBody(file, fileUploadObserver))
+                .uploadFile(url, new ProgressResponseBody(object, fileUploadObserver))
                 .compose(RxSchedulers.io_main())
                 .subscribe(fileUploadObserver);
+    }
+
+
+    /**
+     * 单上传文件的封装 无参数
+     *
+     * @param url  完整的接口地址
+     * @param file byte[]  需要上传的文件
+     */
+    @SuppressWarnings("ALL")
+    public Observable<ResponseBody> upLoadFile(String url, Object object) {
+        return create(APIFunction.class)
+                .uploadFile(url, new ProgressResponseBody(object));
     }
 
 
