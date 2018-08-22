@@ -2,7 +2,6 @@ package com.cangmaomao.network.request;
 
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -20,8 +19,6 @@ import com.cangmaomao.network.request.persistence.SharedPrefsCookiePersistor;
 import com.cangmaomao.network.request.service.APIFunction;
 import com.cangmaomao.network.request.utils.RxSchedulers;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.zyao89.view.zloading.ZLoadingView;
-import com.zyao89.view.zloading.Z_TYPE;
 
 import java.io.File;
 import java.util.Map;
@@ -171,24 +168,20 @@ public class HttpManage {
 
     @SuppressLint("InflateParams")
     public HttpManage loadingView(ViewGroup view, boolean flag) {
-        this.mViewGroup = view;
         if (loadingErr != null) {
             mViewGroup.removeView(loadingErr);
         }
-        if (loading == null) {
-            loading = LayoutInflater.from(view.getContext()).inflate(!flag ? R.layout.loading_view : R.layout.dialog_view, null);
-            ZLoadingView zLoadingView = loading.findViewById(R.id.zLoadingView);
-            zLoadingView.setLoadingBuilder(Z_TYPE.DOUBLE_CIRCLE);
-            zLoadingView.setColorFilter(Color.BLACK);
 
-        }
+        this.mViewGroup = view;
+
         if (flag) {
             if (dialog == null) {
                 dialog = new AlertDialog.Builder(view.getContext(), R.style.DialogTheme).create();
-                dialog.setView(loading);
+                dialog.setView(LayoutInflater.from(view.getContext()).inflate(R.layout.dialog_view, null));
             }
             dialog.show();
         } else {
+            loading = LayoutInflater.from(view.getContext()).inflate(R.layout.loading_view, null);
             int size = view.getChildCount();
             for (int i = 0; i < size; i++) {
                 View childAt = view.getChildAt(i);
@@ -197,7 +190,7 @@ public class HttpManage {
                 }
             }
             layoutParams(loading);
-            view.addView(loading);
+            mViewGroup.addView(loading);
         }
         return this;
     }
@@ -227,6 +220,7 @@ public class HttpManage {
     public void loadingEnd() {
         if (dialog != null) {
             dialog.dismiss();
+            dialog = null;
             return;
         }
         int size = mViewGroup.getChildCount();

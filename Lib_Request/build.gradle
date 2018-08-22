@@ -37,6 +37,6 @@ dependencies {
     api rootProject.ext.dependencies.loggingInterceptor
     api rootProject.ext.dependencies.rxjava
     api rootProject.ext.dependencies.rxandroid
-    implementation rootProject.ext.dependencies.zloading
     api rootProject.ext.dependencies.multiImageSelector
+    api project(':zloadingview')
 }

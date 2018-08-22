@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Lib_Request" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/zloadingview" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
