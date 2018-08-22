@@ -61,9 +61,9 @@ public class HttpManage {
                     .addNetworkInterceptor(interceptor)
                     .addInterceptor(downloadInterceptor)
                     .addInterceptor(new TokenInterceptor())
-                    .connectTimeout(10, TimeUnit.SECONDS)
-                    .writeTimeout(10, TimeUnit.SECONDS)
-                    .readTimeout(10, TimeUnit.SECONDS)
+                    .connectTimeout(Config.CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                    .writeTimeout(Config.WRITE_TIMEOUT, TimeUnit.SECONDS)
+                    .readTimeout(Config.READ_TIMEOUT, TimeUnit.SECONDS)
                     .build();
         } else {
             client = new OkHttpClient.Builder()
@@ -71,9 +71,9 @@ public class HttpManage {
                     .addInterceptor(downloadInterceptor)
                     .addInterceptor(new TokenInterceptor())
                     .cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(AbsCookieJar.mContext)))
-                    .connectTimeout(10, TimeUnit.SECONDS)
-                    .writeTimeout(10, TimeUnit.SECONDS)
-                    .readTimeout(10, TimeUnit.SECONDS)
+                    .connectTimeout(Config.CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                    .writeTimeout(Config.WRITE_TIMEOUT, TimeUnit.SECONDS)
+                    .readTimeout(Config.READ_TIMEOUT, TimeUnit.SECONDS)
                     .build();
         }
 

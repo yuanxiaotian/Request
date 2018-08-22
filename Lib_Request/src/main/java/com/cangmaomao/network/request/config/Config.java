@@ -17,4 +17,9 @@ public class Config {
 
     //全局token VAL
     public static String TO_KEN_VAL = "";
+
+
+    public final static int CONNECT_TIMEOUT =60;
+    public final static int READ_TIMEOUT=100;
+    public final static int WRITE_TIMEOUT=60;
 }
