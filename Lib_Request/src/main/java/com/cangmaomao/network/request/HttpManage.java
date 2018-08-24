@@ -105,6 +105,12 @@ public class HttpManage {
                 .subscribe(fileUploadObserver);
     }
 
+    public Observable<ResponseBody> upLoadFile(String url, Object object, Map<String, RequestBody> map) {
+        return create(APIFunction.class)
+                .uploadFile(url, new ProgressResponseBody(object), map);
+
+    }
+
     /**
      * 单上传文件的封装 无参数
      *
@@ -120,13 +126,6 @@ public class HttpManage {
                 .subscribe(fileUploadObserver);
     }
 
-
-    /**
-     * 单上传文件的封装 无参数
-     *
-     * @param url  完整的接口地址
-     * @param file byte[]  需要上传的文件
-     */
     @SuppressWarnings("ALL")
     public Observable<ResponseBody> upLoadFile(String url, Object object) {
         return create(APIFunction.class)
