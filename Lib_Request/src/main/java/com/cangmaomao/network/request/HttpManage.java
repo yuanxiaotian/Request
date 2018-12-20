@@ -14,6 +14,7 @@ import com.cangmaomao.network.request.cache.SetCookieCache;
 import com.cangmaomao.network.request.config.Config;
 import com.cangmaomao.network.request.cookie.AbsCookieJar;
 import com.cangmaomao.network.request.interceptor.DownloadInterceptor;
+import com.cangmaomao.network.request.interceptor.HostSelectionInterceptor;
 import com.cangmaomao.network.request.interceptor.Retry;
 import com.cangmaomao.network.request.interceptor.TokenInterceptor;
 import com.cangmaomao.network.request.persistence.SharedPrefsCookiePersistor;
@@ -41,6 +42,7 @@ public class HttpManage {
     private ViewGroup mViewGroup;
     private ConstraintLayout.LayoutParams params;
     private DownloadInterceptor downloadInterceptor;
+    private HostSelectionInterceptor hostSelectionInterceptor;
     private Retry retry;
 
     private static class HttpManageHolder {
@@ -53,9 +55,9 @@ public class HttpManage {
 
     HttpManage() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         downloadInterceptor = new DownloadInterceptor();
+        hostSelectionInterceptor =new HostSelectionInterceptor();
         retry = new Retry(1);
         OkHttpClient client;
         if (AbsCookieJar.mContext == null) {
@@ -63,6 +65,7 @@ public class HttpManage {
                     .addNetworkInterceptor(interceptor)
                     .addInterceptor(downloadInterceptor)
                     .addInterceptor(new TokenInterceptor())
+                    .addInterceptor(hostSelectionInterceptor)
                     .addInterceptor(retry)
                     .connectTimeout(Config.CONNECT_TIMEOUT, TimeUnit.SECONDS)
                     .writeTimeout(Config.WRITE_TIMEOUT, TimeUnit.SECONDS)
@@ -72,6 +75,7 @@ public class HttpManage {
             client = new OkHttpClient.Builder()
                     .addNetworkInterceptor(interceptor)
                     .addInterceptor(downloadInterceptor)
+                    .addInterceptor(hostSelectionInterceptor)
                     .addInterceptor(new TokenInterceptor())
                     .cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(AbsCookieJar.mContext)))
                     .connectTimeout(Config.CONNECT_TIMEOUT, TimeUnit.SECONDS)

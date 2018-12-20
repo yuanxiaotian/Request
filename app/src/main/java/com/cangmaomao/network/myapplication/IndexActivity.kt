@@ -2,7 +2,6 @@ package com.cangmaomao.network.myapplication
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import androidx.work.*
 import com.cangmaomao.network.request.HttpManage
 import com.cangmaomao.network.request.RxHttpMange
 import com.cangmaomao.network.request.utils.RxSchedulers
@@ -16,25 +15,18 @@ class IndexActivity :AppCompatActivity() {
 
     private val url = "http://www.seteat.com/Login/app_client_login"
 
-    protected var domeWork: OneTimeWorkRequest?=null
-
-    protected var coustrain:Constraints?=null
-
-    init {
-        coustrain = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
-        var data = Data.Builder().putString("workparame","workHelloWorld").build()
-        domeWork = OneTimeWorkRequest.Builder(DemoWork::class.java).setConstraints(coustrain!!).setInputData(data).build()
-        WorkManager.getInstance().enqueue(domeWork)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         setContentView(R.layout.activity_main)
+
         map = mutableMapOf()
         map["devid"] = "6af67ec1-a504-3848-ba8c-4fa32eaefba9"
         map["ct"] = 1
         map["password"] = 1212
         map["loginid"] = 1212
+
         RxHttpMange.getInstance().add(MainActivity::class.java.simpleName, loading())
     }
 
