@@ -1,10 +1,6 @@
 package com.cangmaomao.network.request.utils;
 
-import javax.xml.transform.Transformer;
-
-import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;
-import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

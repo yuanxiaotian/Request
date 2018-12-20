@@ -1,12 +1,12 @@
 ext {
 
     android = [
-            sdk_version  : 27,
+            sdk_version  : 28,
             min_sdk      : 16,
-            target_sdk   : 27,
+            target_sdk   : 28,
             code         : 3,
             name         : "1.0.0",
-            tools_version: "27.0.3",
+            tools_version: "28.0.3",
             applicationId: "com.cangmaomao.network.myapplication"
     ]
 

@@ -14,18 +14,17 @@ import com.cangmaomao.network.request.cache.SetCookieCache;
 import com.cangmaomao.network.request.config.Config;
 import com.cangmaomao.network.request.cookie.AbsCookieJar;
 import com.cangmaomao.network.request.interceptor.DownloadInterceptor;
+import com.cangmaomao.network.request.interceptor.Retry;
 import com.cangmaomao.network.request.interceptor.TokenInterceptor;
 import com.cangmaomao.network.request.persistence.SharedPrefsCookiePersistor;
 import com.cangmaomao.network.request.service.APIFunction;
 import com.cangmaomao.network.request.utils.RxSchedulers;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-import java.io.File;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -42,6 +41,7 @@ public class HttpManage {
     private ViewGroup mViewGroup;
     private ConstraintLayout.LayoutParams params;
     private DownloadInterceptor downloadInterceptor;
+    private Retry retry;
 
     private static class HttpManageHolder {
         private static final HttpManage INSTANCE = new HttpManage();
@@ -53,14 +53,17 @@ public class HttpManage {
 
     HttpManage() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         downloadInterceptor = new DownloadInterceptor();
+        retry = new Retry(1);
         OkHttpClient client;
         if (AbsCookieJar.mContext == null) {
             client = new OkHttpClient.Builder()
                     .addNetworkInterceptor(interceptor)
                     .addInterceptor(downloadInterceptor)
                     .addInterceptor(new TokenInterceptor())
+                    .addInterceptor(retry)
                     .connectTimeout(Config.CONNECT_TIMEOUT, TimeUnit.SECONDS)
                     .writeTimeout(Config.WRITE_TIMEOUT, TimeUnit.SECONDS)
                     .readTimeout(Config.READ_TIMEOUT, TimeUnit.SECONDS)
@@ -76,7 +79,6 @@ public class HttpManage {
                     .readTimeout(Config.READ_TIMEOUT, TimeUnit.SECONDS)
                     .build();
         }
-
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(Config.S_HTTP_ROOT_URL)
